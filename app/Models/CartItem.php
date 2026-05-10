@@ -15,13 +15,13 @@ class CartItem extends Model
         'quantity'
     ];
 
-    // 👤 Cart belongs to User
+    // Cart belongs to User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // 📦 Cart item belongs to Product
+    // Cart item belongs to Product
     public function product()
     {
         return $this->belongsTo(Product::class);
