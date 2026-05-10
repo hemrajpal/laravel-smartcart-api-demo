@@ -38,6 +38,15 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+
+        if ($validator->fails()) {
+            return ApiResponse::error('Validation failed', $validator->errors(), 422);
+        }
+
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }

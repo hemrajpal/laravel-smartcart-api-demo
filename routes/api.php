@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\OrderController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -24,4 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/cart/{id}', [CartController::class, 'updateQuantity']);
     Route::delete('/cart/{id}', [CartController::class, 'delete']);
     Route::delete('/cart', [CartController::class, 'clear']);
+
+    Route::post('/order/checkout', [OrderController::class, 'checkout']);
+    Route::get('/order/list', [OrderController::class, 'list']);
+    Route::get('/order/show/{id}', [OrderController::class, 'show']);
 });
