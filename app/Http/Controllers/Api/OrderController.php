@@ -72,7 +72,7 @@ class OrderController extends Controller
 
     public function show(Request $request, $id)
     {
-        $order = \App\Models\Order::with('orderItems.product')->where('user_id', Auth::id())->find($id);
+        $order = \App\Models\Order::with('orderItems.product', 'address')->where('user_id', Auth::id())->find($id);
 
         if (!$order) {
             return ApiResponse::error('Order not found', [], 404);
