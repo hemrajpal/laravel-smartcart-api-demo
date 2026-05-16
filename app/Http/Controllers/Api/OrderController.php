@@ -72,12 +72,25 @@ class OrderController extends Controller
 
     public function show(Request $request, $id)
     {
-        $order = \App\Models\Order::with('orderItems.product', 'address')->where('user_id', Auth::id())->find($id);
+        $order = \App\Models\Order::with('orderItems.product', 'address')->where('user_id', Auth::id())->where('id', $id)->first();
 
         if (!$order) {
             return ApiResponse::error('Order not found', [], 404);
         }
 
         return ApiResponse::success($order);
+    }
+
+    public function updateAdress($id, $address_id)
+    {
+        $order = \App\Models\Order::where('user_id', Auth::id())->where('id', $id)->first();
+        if (!$order) {
+            return ApiResponse::error('Order not found', [], 404);
+        }
+
+        $order->address_id = $address_id;
+        $order->save();
+
+        return ApiResponse::success($order, 'Address added');
     }
 }

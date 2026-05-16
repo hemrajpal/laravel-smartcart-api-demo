@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\AddressController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -29,4 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/order/checkout', [OrderController::class, 'checkout']);
     Route::get('/order/list', [OrderController::class, 'list']);
     Route::get('/order/show/{id}', [OrderController::class, 'show']);
+    Route::patch('/order/updateAdress/{id}/{address_id}', [OrderController::class, 'updateAdress']);
+
+    Route::get('/address/list', [AddressController::class, 'list']);
+    Route::post('/address/add', [AddressController::class, 'add']);
+    Route::post('/address/edit/{id}', [AddressController::class, 'edit']);
+    Route::delete('/address/delete/{id}', [AddressController::class, 'delete']);
 });
