@@ -13,7 +13,7 @@ class CartController extends Controller
 {
     public function index(Request $request)
     {
-        $cart = CartItem::where('user_id', Auth::id())->get();
+        $cart = CartItem::with('product')->where('user_id', Auth::id())->get();
         return ApiResponse::success($cart);
     }
 
