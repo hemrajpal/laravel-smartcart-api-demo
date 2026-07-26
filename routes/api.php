@@ -42,6 +42,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/payment/create-order-payment/{order_id}', [PaymentController::class, 'createPaymentOrder']);
 
-    Route::get('/admin/orders', [AdminOrderController::class, 'orders']);
-    Route::patch('/admin/order-status/{order_id}/{status}', [AdminOrderController::class, 'updateOrderStatus']);
+    
+
+    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+        Route::get('/admin/orders', [AdminOrderController::class, 'orders']);
+        Route::patch('/admin/order-status/{order_id}/{status}', [AdminOrderController::class, 'updateOrderStatus']);
+    });
 });
