@@ -22,6 +22,15 @@ class PaymentController extends Controller
             return ApiResponse::error('Order not found', [], 404);
         }
 
+        // Don't create payment for cancelled or completed orders
+        if (in_array($order->status, ['cancelled', 'delivered'])) {
+            return ApiResponse::error(
+                'Payment cannot be created for this order',
+                [],
+                400
+            );
+        }
+
         // Check if payment already exists
         if ($order->payment) {
             return ApiResponse::error(

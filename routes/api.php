@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/order/list', [OrderController::class, 'list']);
     Route::get('/order/show/{id}', [OrderController::class, 'show']);
     Route::patch('/order/updateAdress/{id}/{address_id}', [OrderController::class, 'updateAdress']);
+    Route::patch('/order/cancel-order/{id}', [OrderController::class, 'cancelOrder']);
 
     Route::get('/address/list', [AddressController::class, 'list']);
     Route::post('/address/add', [AddressController::class, 'add']);

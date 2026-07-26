@@ -93,4 +93,25 @@ class OrderController extends Controller
 
         return ApiResponse::success($order, 'Address added');
     }
+
+    public function cancelOrder(Request $request, $id)
+    {
+        $order = \App\Models\Order::where('user_id', Auth::id())->where('id', $id)->first();
+        if (!$order) {
+            return ApiResponse::error('Order not found', [], 404);
+        }
+
+        if (in_array($order->status, ['shipped', 'delivered', 'cancelled'])) {
+            return ApiResponse::error(
+                'This order cannot be cancelled',
+                [],
+                400
+            );
+        }
+
+        $order->status = 'cancelled';
+        $order->save();
+
+        return ApiResponse::success($order, 'Order has been cancelled');
+    }
 }
