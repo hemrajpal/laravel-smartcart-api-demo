@@ -38,6 +38,9 @@ class PaymentController extends Controller
             'status' => 'pending',
         ]);
 
+        $order->status = 'confirmed';
+        $order->save();
+
         return ApiResponse::success(
             $payment,
             'Payment created successfully'
