@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\PaymentController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -36,4 +37,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/address/add', [AddressController::class, 'add']);
     Route::post('/address/edit/{id}', [AddressController::class, 'edit']);
     Route::delete('/address/delete/{id}', [AddressController::class, 'delete']);
+
+    Route::post('/payment/create-order-payment/{order_id}', [PaymentController::class, 'createPaymentOrder']);
 });
