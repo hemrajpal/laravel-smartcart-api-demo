@@ -4,3 +4,5 @@ vendor
 node_modules
 docker-compose.yml
 Dockerfile
+.phpunit.result.cache
+tests

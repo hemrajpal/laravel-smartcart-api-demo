@@ -45,6 +45,8 @@ COPY --from=builder /app /var/www/html
 # Set correct runtime permissions for Laravel 12 storage and cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Render injects the PORT env variable automatically (defaults to 80 or 10000)
+# Render injects the PORT env variable automatically (defaults to 80)
 EXPOSE 80
-CMD ["apache2-foreground"]
+
+# AUTOMATIC MIGRATION LINE: Runs migrations first, then runs the Apache server
+CMD php artisan migrate --force && apache2-foreground
