@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\UserResource;
 
 use App\Helpers\ApiResponse;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -32,6 +34,8 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
+
+        Mail::to($user->email)->send(new WelcomeMail($user));
 
         return ApiResponse::success(new UserResource($user), 'User registered successfully');
     }
