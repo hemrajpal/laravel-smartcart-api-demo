@@ -17,25 +17,31 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
 # ==========================================
-# STAGE 2: Final Tiny Production Image
+# STAGE 2: Final Stable Production Image
 # ==========================================
-FROM php:8.4-apache-alpine
+# CHANGED: Swapped from apache-alpine to official debian-apache base
+FROM php:8.4-apache
 
-# Install bare minimum runtime dependencies & PHP extensions for Laravel 12
-RUN apk add --no-cache \
-    libpng \
-    libjpeg-turbo \
-    freetype \
-    libzip \
+# Install runtime dependencies & PHP extensions for Laravel 12
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
     libpq-dev \
-    && docker-php-ext-install pdo_mysql pdo_pgsql gd zip bcmath opcache
+    zip \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_mysql pdo_pgsql gd zip bcmath opcache \
+    && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache mod_rewrite for Laravel routing
-RUN a2enmod rewrite 2>/dev/null || sed -i 's/#LoadModule rewrite_module/LoadModule rewrite_module/' /etc/apache2/httpd.conf
+RUN a2enmod rewrite
 
 # Crucial for Render: Route Apache to Laravel 12's /public directory
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/localhost/htdocs!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/httpd.conf
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 WORKDIR /var/www/html
 
