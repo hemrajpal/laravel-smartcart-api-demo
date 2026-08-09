@@ -10,10 +10,41 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\AdminOrderController;
+use App\Http\Controllers\Api\NotificationController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get(
+    '/email/verify/{id}/{hash}',
+    [AuthController::class, 'verifyEmail']
+)->name('verification.verify');
+
+
+Route::middleware('auth:sanctum')->get('/email/status', function (Request $request) {
+    return response()->json([
+        'verified' => $request->user()->hasVerifiedEmail(),
+    ]);
+});
+
+Route::middleware('auth:sanctum')->post(
+    '/email/verification-notification',
+    function (Request $request) {
+
+        if ($request->user()->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email is already verified.',
+            ], 400);
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json([
+            'message' => 'Verification link sent.',
+        ]);
+    }
+);
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -41,8 +72,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/address/delete/{id}', [AddressController::class, 'delete']);
 
     Route::post('/payment/create-order-payment/{order_id}', [PaymentController::class, 'createPaymentOrder']);
-
     
+    Route::get('/notifications', [NotificationController::class, 'index']);
 
     Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
         Route::get('/admin/orders', [AdminOrderController::class, 'orders']);

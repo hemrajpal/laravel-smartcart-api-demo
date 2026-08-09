@@ -55,6 +55,10 @@ class OrderController extends Controller
 
             DB::commit();
 
+            $order->user->notify(
+                new \App\Notifications\OrderSuccessNotification($order)
+            );
+
             return ApiResponse::success($order, 'Order created successfully');
         } catch (\Exception $e) {
             DB::rollBack();

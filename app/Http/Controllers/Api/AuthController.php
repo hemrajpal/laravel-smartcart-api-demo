@@ -36,6 +36,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         Mail::to($user->email)->send(new WelcomeMail($user));
+        //$user->sendEmailVerificationNotification();
 
         return ApiResponse::success(new UserResource($user), 'User registered successfully');
     }
@@ -52,16 +53,44 @@ class AuthController extends Controller
         }
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return ApiResponse::error('Invalid credentials', [], 401);
         }
 
         $user = User::where('email', $request->email)->first();
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
+        return ApiResponse::success([
             'token' => $token,
             'user' => new UserResource($user)
         ]);
+    }
+
+    public function verifyEmail(Request $request, $id, $hash)
+    {
+        if (! $request->hasValidSignature()) {
+            return ApiResponse::error('Invalid or expired verification link.', [], 403);
+        }
+
+        $user = User::find($id);
+
+        if (! $user) {
+            return ApiResponse::error('User not found.', [], 404);
+        }
+
+        if (! hash_equals(
+            sha1($user->getEmailForVerification()),
+            $hash
+        )) {
+            return ApiResponse::error('Invalid verification link.', [], 403);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return ApiResponse::success([], 'Email is already verified.');
+        }
+
+        $user->markEmailAsVerified();
+
+        return ApiResponse::success([], 'Email verified successfully.');
     }
 
 
