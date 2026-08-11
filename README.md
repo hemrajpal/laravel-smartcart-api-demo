@@ -32,7 +32,7 @@ A simple **e-commerce REST API** built with **Laravel 12** for interview and dem
 ## Setup
 
 ```bash
-git clone <repository-url>
+git clone hemrajpal/laravel-smartcart-api-demo
 cd laravel-smartcart-api-demo
 
 composer install
