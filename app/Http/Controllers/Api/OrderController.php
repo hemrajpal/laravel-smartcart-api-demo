@@ -69,7 +69,7 @@ class OrderController extends Controller
 
     public function list(Request $request)
     {
-        $orders = \App\Models\Order::get();
+        $orders = \App\Models\Order::orderBy('created_at', 'desc')->get();
 
         return ApiResponse::success($orders);
     }
