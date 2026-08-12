@@ -69,4 +69,4 @@ php artisan queue:work
 
 ## Purpose
 
-This project is created as an **interview/demo project** to demonstrate practical Laravel API development, authentication, database relationships, notifications, queues, and e-commerce functionality.
+This project is created as an **demo project** to demonstrate practical Laravel API development, authentication, database relationships, notifications, queues, and e-commerce functionality.
