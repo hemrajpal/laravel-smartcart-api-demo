@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\Storage;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use App\Http\Requests\ProductRequest;
 
 use App\Helpers\ApiResponse;
 
@@ -47,20 +48,22 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $validator = \Validator::make($request->all(), [
+        /* $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'price' => 'required|numeric',
             'description' => 'nullable|string',
-            'image' => 'nullable|image'
+            'image' => 'nullable|image',
+            'category_ids' => ['required', 'array', 'min:1'],
+            'category_ids.*' => ['integer', 'exists:categories,id'],
         ]);
 
         if ($validator->fails()) {
             return \App\Helpers\ApiResponse::error('Validation failed', $validator->errors(), 422);
-        }
+        } */
 
-        $data = $validator->validated();
+        $data = $request->validated();
 
         // Upload to Cloudinary
         if ($request->hasFile('image')) {
@@ -81,6 +84,8 @@ class ProductController extends Controller
         }
 
         $product = \App\Models\Product::create($data);
+
+        $product->categories()->sync($data['category_ids']);
 
         return new ProductResource($product);
     }

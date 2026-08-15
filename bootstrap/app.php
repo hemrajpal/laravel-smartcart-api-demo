@@ -16,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'admin.user' => \App\Http\Middleware\AdminMiddleware::class,
+            'admin.guest' => \App\Http\Middleware\AdminGuestMiddleware::class,
         ]);
 
         // CRUCIAL FOR RENDER: Trust the reverse proxy load balancer
