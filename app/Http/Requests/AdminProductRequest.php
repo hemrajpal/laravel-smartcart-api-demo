@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ProductRequest extends FormRequest
+class AdminProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -43,7 +43,7 @@ class ProductRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator): void
+    /* protected function failedValidation(Validator $validator): void
     {
         throw new HttpResponseException(
             \App\Helpers\ApiResponse::error(
@@ -52,5 +52,5 @@ class ProductRequest extends FormRequest
                 422
             )
         );
-    }
+    } */
 }

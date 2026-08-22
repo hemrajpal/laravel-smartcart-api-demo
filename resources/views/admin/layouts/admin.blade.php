@@ -63,35 +63,46 @@
         <div class="row">
 
             {{-- Sidebar --}}
-            <aside class="col-md-2 bg-light min-vh-100 p-3">
+            <aside class="col-md-2 bg-light min-vh-100 border-end p-3">
 
-                <h6 class="text-muted">
-                    MENU
-                </h6>
+                <div class="mb-4">
+                    <h6 class="text-uppercase text-muted small fw-bold mb-3">
+                        Menu
+                    </h6>
 
-                <div class="nav flex-column">
+                    <nav class="nav flex-column gap-1">
 
-                    <a
-                        href="{{ route('admin.dashboard') }}"
-                        class="nav-link"
-                    >
-                        Dashboard
-                    </a>
+                        {{-- Dashboard --}}
+                        <a
+                            href="{{ route('admin.dashboard') }}"
+                            class="nav-link rounded px-3 py-2
+                                {{ request()->routeIs('admin.dashboard') ? 'active bg-primary text-white' : 'text-dark' }}"
+                        >
+                            <i class="bi bi-speedometer2 me-2"></i>
+                            Dashboard
+                        </a>
 
-                    <a
-                        href="{{ route('admin.categories.index') }}"
-                        class="nav-link"
-                    >
-                        Categories
-                    </a>
+                        {{-- Categories --}}
+                        <a
+                            href="{{ route('admin.categories.index') }}"
+                            class="nav-link rounded px-3 py-2
+                                {{ request()->routeIs('admin.categories.*') ? 'active bg-primary text-white' : 'text-dark' }}"
+                        >
+                            <i class="bi bi-tags me-2"></i>
+                            Categories
+                        </a>
 
-                    <a
-                        {{-- href="{{ route('admin.products.index') }}" --}}
-                        class="nav-link"
-                    >
-                        Products
-                    </a>
+                        {{-- Products --}}
+                        <a
+                            href="{{ route('admin.products.index') }}"
+                            class="nav-link rounded px-3 py-2
+                                {{ request()->routeIs('admin.products.*') ? 'active bg-primary text-white' : 'text-dark' }}"
+                        >
+                            <i class="bi bi-box-seam me-2"></i>
+                            Products
+                        </a>
 
+                    </nav>
                 </div>
 
             </aside>
