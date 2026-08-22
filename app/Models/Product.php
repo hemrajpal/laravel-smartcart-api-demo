@@ -22,4 +22,9 @@ class Product extends Model
     {
         return $this->hasMany(CartItem::class);
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(\App\Models\Category::class);
+    }
 }
