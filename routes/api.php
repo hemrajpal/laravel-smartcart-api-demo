@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\PaymentController;
-use App\Http\Controllers\Api\AdminOrderController;
 use App\Http\Controllers\Api\NotificationController;
 
 
@@ -52,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::apiResource('products', ProductController::class);
+    Route::apiResource('products', ProductController::class)->except(['store', 'update', 'destroy']);
     
     Route::get('/cart', [CartController::class, 'index']);
     Route::post('/cart', [CartController::class, 'store']);
@@ -74,9 +73,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/payment/create-order-payment/{order_id}', [PaymentController::class, 'createPaymentOrder']);
     
     Route::get('/notifications', [NotificationController::class, 'index']);
-
-    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
-        Route::get('/admin/orders', [AdminOrderController::class, 'orders']);
-        Route::patch('/admin/order-status/{order_id}/{status}', [AdminOrderController::class, 'updateOrderStatus']);
-    });
 });

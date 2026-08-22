@@ -82,6 +82,15 @@
                             Dashboard
                         </a>
 
+                        <a
+                            href="{{ route('admin.orders') }}"
+                            class="nav-link rounded px-3 py-2
+                                {{ request()->routeIs('admin.orders.*') ? 'active bg-primary text-white' : 'text-dark' }}"
+                        >
+                            <i class="bi bi-tags me-2"></i>
+                            Orders
+                        </a>
+
                         {{-- Categories --}}
                         <a
                             href="{{ route('admin.categories.index') }}"
