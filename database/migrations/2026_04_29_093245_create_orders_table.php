@@ -17,6 +17,8 @@ return new class extends Migration
             // User relation
             $table->foreignId('user_id')->constrained();
 
+            $table->foreignId('address_id')->nullable()->constrained('addresses')->nullOnDelete();
+
             // Amount
             $table->decimal('total_amount', 10, 2);
 
