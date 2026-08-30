@@ -27,8 +27,8 @@ class Order extends Model
         return $this->belongsTo(\App\Models\Address::class);
     }
 
-    public function payment()
+    public function payments()
     {
-        return $this->hasOne(\App\Models\Payment::class);
+        return $this->hasMany(\App\Models\Payment::class);
     }
 }
