@@ -70,7 +70,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/address/edit/{id}', [AddressController::class, 'edit']);
     Route::delete('/address/delete/{id}', [AddressController::class, 'delete']);
 
-    Route::post('/payment/create-order-payment/{order_id}', [PaymentController::class, 'createPaymentOrder']);
+    Route::post('/payment/create-cod-payment-order/{order_id}', [PaymentController::class, 'createCodPaymentOrder']);
+    Route::post('/payment/create-stripe-payment-initiate/{order_id}', [PaymentController::class, 'createStripePaymentInitiate']);    
     
     Route::get('/notifications', [NotificationController::class, 'index']);
 });
+
+Route::post('/stripe/webhook', [PaymentController::class, 'handle']);
