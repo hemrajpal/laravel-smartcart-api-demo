@@ -99,7 +99,7 @@ class PaymentController extends Controller
             );
         }
 
-        $response = $this->paymentService->createPayment($order);
+        $response = $this->paymentService->createPaymentIntent($order);
 
         /*Stripe::setApiKey(config('services.stripe.secret'));
 
