@@ -15,8 +15,15 @@ use Stripe\Exception\SignatureVerificationException;
 use Stripe\Webhook;
 use Illuminate\Support\Facades\Log;
 
+use App\Services\PaymentService;
+
 class PaymentController extends Controller
 {
+    public function __construct(private PaymentService $paymentService)
+    {
+       
+    }
+    
     public function createCodPaymentOrder(Request $request, $orderId)
     {
         $order = Order::where('user_id', Auth::id())
@@ -92,7 +99,9 @@ class PaymentController extends Controller
             );
         }
 
-        Stripe::setApiKey(config('services.stripe.secret'));
+        $response = $this->paymentService->createPayment($order);
+
+        /*Stripe::setApiKey(config('services.stripe.secret'));
 
         $intent = PaymentIntent::create([
             'amount' => (int) ($order->total_amount * 100),
@@ -108,14 +117,10 @@ class PaymentController extends Controller
             'amount' => $order->total_amount,
             'status' => 'pending',
             'gateway_transaction_id' => $intent->id,
-        ]);
+        ]); */
 
         return ApiResponse::success(
-            [
-                'payment' => $payment,
-                'client_secret' => $intent->client_secret,
-            ], 
-            
+            $response, 
             'Payment initiated successfully'
         );
     }
