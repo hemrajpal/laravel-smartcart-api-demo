@@ -9,7 +9,7 @@ class AdminOrderController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = \App\Models\Order::with('payment')->latest()->paginate(10);
+        $orders = \App\Models\Order::with('paymentS')->latest()->paginate(10);
     
         return view('admin.orders.index', compact('orders'));
     }
