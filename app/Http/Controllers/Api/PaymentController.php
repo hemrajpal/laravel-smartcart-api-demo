@@ -101,24 +101,6 @@ class PaymentController extends Controller
 
         $response = $this->paymentService->createPaymentIntent($order);
 
-        /*Stripe::setApiKey(config('services.stripe.secret'));
-
-        $intent = PaymentIntent::create([
-            'amount' => (int) ($order->total_amount * 100),
-            'currency' => 'inr',
-            'metadata' => [
-                'order_id' => $order->id,
-            ],
-        ]);
-
-        $payment = Payment::create([
-            'order_id' => $order->id,
-            'payment_method' => 'stripe',
-            'amount' => $order->total_amount,
-            'status' => 'pending',
-            'gateway_transaction_id' => $intent->id,
-        ]); */
-
         return ApiResponse::success(
             $response, 
             'Payment initiated successfully'
