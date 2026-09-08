@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\WebhookController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -76,4 +77,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index']);
 });
 
-Route::post('/stripe/webhook', [PaymentController::class, 'handle']);
+Route::post('/webhook/stripe', [WebhookController::class, 'stripe']);
