@@ -10,7 +10,7 @@ class PaymentService
         protected $gateway
     ) {}
 
-    public function createPayment(Order $order)
+    public function createPaymentIntent(Order $order)
     {
         return $this->gateway->createPayment($order);
     }

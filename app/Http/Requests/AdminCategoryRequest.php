@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AdminCategoryRequest extends FormRequest
 {
@@ -33,7 +34,8 @@ class AdminCategoryRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:categories,slug,' . $this->category?->id,
+                Rule::unique('categories', 'slug')
+                    ->ignore($this->route('category')?->id),
             ],
 
             'description' => [

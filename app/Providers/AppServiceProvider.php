@@ -11,7 +11,6 @@ use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use App\Services\PaymentService;
 use App\Services\StripePayment;
 use App\Services\RazorpayPayment;
-use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
