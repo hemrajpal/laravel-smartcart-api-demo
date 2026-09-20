@@ -55,6 +55,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 EXPOSE 80
 
 # AUTOMATIC MIGRATION LINE: Runs migrations first, then runs the Apache server
-CMD php artisan migrate --force && \
+CMD php artisan migrate:fresh --force && \
+    php artisan migrate --force && \
     php artisan db:seed --force && \
     apache2-foreground
