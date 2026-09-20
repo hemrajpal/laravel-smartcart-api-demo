@@ -35,6 +35,13 @@ class AdminProductRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'sku' => [
+                'required',
+                'string',
+                'max:100',
+                'regex:/^[a-z0-9-]+$/',
+                'unique:products,sku',
+            ],
             'price' => 'required|numeric',
             'description' => 'nullable|string',
             'image' => 'nullable|image',

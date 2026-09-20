@@ -9,6 +9,9 @@ use App\Models\Category;
 use App\Http\Requests\AdminProductRequest;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+
 class AdminProductController extends Controller
 {
     /**
@@ -45,10 +48,15 @@ class AdminProductController extends Controller
 
         $product = Product::create([
             'name' => $data['name'],
+            'sku' => $data['sku'],
+            'slug' => 'temp-' . Str::random(10),
             'price' => $data['price'],
             'description' => $data['description'] ?? null,
             'image' => $data['image'] ?? null,
         ]);
+
+        $product->slug = $product->id . '-' . Str::slug($product->name);
+        $product->save();
 
         $product->categories()->sync($data['category_ids']);
 

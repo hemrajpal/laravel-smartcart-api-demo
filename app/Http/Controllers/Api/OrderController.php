@@ -51,13 +51,9 @@ class OrderController extends Controller
             }
 
             // Clear cart
-            \App\Models\CartItem::where('user_id', $userId)->delete();
-
+            \App\Models\CartItem::where('user_id', $userId)->delete();            
+            
             DB::commit();
-
-            $order->user->notify(
-                new \App\Notifications\OrderSuccessNotification($order)
-            );
 
             return ApiResponse::success($order, 'Order created successfully');
         } catch (\Exception $e) {

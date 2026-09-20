@@ -76,6 +76,10 @@ class WebhookController extends Controller
                             'status' => 'confirmed',
                         ]);
                     }
+
+                    $order->user->notify(
+                        new \App\Notifications\OrderSuccessNotification($order)
+                    );
                 }                
 
                 break;

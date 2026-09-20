@@ -70,6 +70,31 @@
 
             </div>
 
+            {{-- SKU --}}
+            <div class="mb-3">
+
+                <label for="name" class="form-label">
+                    SKU
+                </label>
+
+                <input
+                    type="text"
+                    name="sku"
+                    id="sku"
+                    value="{{ old('sku') }}"
+                    class="form-control @error('sku') is-invalid @enderror"
+                    placeholder="Enter product sku"
+                    required
+                >
+
+                @error('sku')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+
+            </div>
+
             {{-- Price --}}
             <div class="mb-3">
 

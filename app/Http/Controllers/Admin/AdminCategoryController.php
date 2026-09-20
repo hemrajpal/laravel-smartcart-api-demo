@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminCategoryRequest;
 use App\Models\Category;
 
+use Illuminate\Support\Str;
+
 class AdminCategoryController extends Controller
 {
     /**
@@ -31,7 +33,13 @@ class AdminCategoryController extends Controller
      */
     public function store(AdminCategoryRequest $request)
     {
-        Category::create($request->validated());
+        $data = $request->validated();
+
+        $category = Category::create([
+            'title' => $data['title'],
+            'slug' => Str::slug($data['title']),
+            'description' => $data['description'] ?? null,
+        ]);
 
         return redirect()
             ->route('admin.categories.index')

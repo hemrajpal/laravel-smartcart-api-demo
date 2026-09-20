@@ -30,14 +30,6 @@ class AdminCategoryRequest extends FormRequest
                 'max:255',
             ],
 
-            'slug' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('categories', 'slug')
-                    ->ignore($this->route('category')?->id),
-            ],
-
             'description' => [
                 'nullable',
                 'string',

@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class OrderSuccessNotification extends Notification implements ShouldQueue
 {
@@ -26,7 +27,7 @@ class OrderSuccessNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -66,5 +67,23 @@ class OrderSuccessNotification extends Notification implements ShouldQueue
             'message' => 'Your order has been placed successfully.',
             'amount' => $this->order->total_amount,
         ];
+    }
+
+    /* public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'order_id' => $this->order->id,
+            'message' => 'Your order has been placed successfully.',
+            'amount' => $this->order->total_amount,
+        ]);
+    } */
+
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        $unreadCount = $notifiable->unreadNotifications()->count();
+
+        return new BroadcastMessage([
+            'unread_count' => $unreadCount,
+        ]);
     }
 }

@@ -1,3 +1,4 @@
+use Illuminate\Support\Str;
 @extends('admin.layouts.admin')
 
 @section('title', 'Create Category')
@@ -23,7 +24,7 @@
 <div class="card">
     <div class="card-body">
 
-        {{-- @if ($errors->any())
+        @if ($errors->any())
             <div class="alert alert-danger">
                 <ul class="mb-0">
                     @foreach ($errors->all() as $error)
@@ -31,7 +32,7 @@
                     @endforeach
                 </ul>
             </div>
-        @endif --}}
+        @endif
 
         <form
             method="POST"
@@ -55,27 +56,6 @@
                 >
 
                 @error('title')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="slug" class="form-label">
-                    Slug
-                </label>
-
-                <input
-                    type="text"
-                    id="slug"
-                    name="slug"
-                    value="{{ old('slug') }}"
-                    class="form-control @error('slug') is-invalid @enderror"
-                    placeholder="category-slug"
-                >
-
-                @error('slug')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
