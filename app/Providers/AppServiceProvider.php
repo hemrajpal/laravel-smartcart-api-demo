@@ -22,17 +22,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PaymentService::class, function ($app) {
 
             if (config('payment.gateway') === 'stripe') {
-
-                return new PaymentService(
-                    $app->make(StripePayment::class)
-                );
+                return $app->make(StripePayment::class);
             }
 
             if (config('payment.gateway') === 'razorpay') {
-
-                return new PaymentService(
-                    $app->make(RazorpayPayment::class)
-                );
+                return $app->make(RazorpayPayment::class);
             }
 
             throw new \Exception(

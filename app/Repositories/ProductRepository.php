@@ -50,7 +50,9 @@ class ProductRepository
             $query->latest();
         }
 
-        return $query->paginate(10);
+        $limit = 24;
+
+        return $query->paginate($limit);
     }
 
     public function find(int $id): ?Product

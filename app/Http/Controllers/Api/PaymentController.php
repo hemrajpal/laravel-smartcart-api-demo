@@ -103,7 +103,7 @@ class PaymentController extends Controller
             );
         }
 
-        $response = $this->paymentService->createPaymentIntent($order);
+        $response = $this->paymentService->createPayment($order);
 
         return ApiResponse::success(
             $response, 
