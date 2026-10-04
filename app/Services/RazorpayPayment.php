@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
+use App\Services\PaymentService;
 use App\Models\Order;
 use App\Models\Payment;
 
-class RazorpayPayment
+class RazorpayPayment implements PaymentService
 {
     protected string $key;
     protected string $secret;
@@ -16,7 +17,7 @@ class RazorpayPayment
         $this->secret = config('services.razorpay.secret');
     }
 
-    public function createPayment(Order $order)
+    public function createPayment(Order $order): array
     {
         // Razorpay order creation will go here.
 

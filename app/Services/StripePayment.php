@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
+use App\Services\PaymentService;
 use App\Models\Order;
 use App\Models\Payment;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 
-class StripePayment
+class StripePayment implements PaymentService
 {
     protected string $secret;
 
@@ -16,7 +17,7 @@ class StripePayment
         $this->secret = config('services.stripe.secret');
     }
 
-    public function createPayment(Order $order)
+    public function createPayment(Order $order): array
     {
         Stripe::setApiKey($this->secret);
 
@@ -32,10 +33,14 @@ class StripePayment
         $payment = Payment::create([
             'order_id' => $order->id,
             'payment_method' => 'stripe',
-            'gateway_transaction_id‎' => $intent->id,
+            'gateway_transaction_id' => $intent->id,
             'amount' => $order->total_amount,
             'status' => 'pending',
         ]);
+
+        $order->user->notify(
+            new \App\Notifications\OrderSuccessNotification($order)
+        );
 
         return [
             'payment' => $payment,

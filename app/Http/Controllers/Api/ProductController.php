@@ -29,7 +29,17 @@ class ProductController extends Controller
     {
         $products = $this->productRepository->getProducts($request);
 
-        return ApiResponse::success(ProductResource::collection($products), 'Product list');
+        return ApiResponse::success(
+            [
+                'data' => ProductResource::collection($products->items()),
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'per_page' => $products->perPage(),
+                'total' => $products->total(),
+                'has_more' => $products->hasMorePages(),
+            ], 
+            'Product list'
+        );
     }
 
     /**

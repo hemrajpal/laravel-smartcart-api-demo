@@ -4,14 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 
-class PaymentService
+interface PaymentService
 {
-    public function __construct(
-        protected $gateway
-    ) {}
-
-    public function createPaymentIntent(Order $order)
-    {
-        return $this->gateway->createPayment($order);
-    }
+    public function createPayment(Order $order): array;
 }
